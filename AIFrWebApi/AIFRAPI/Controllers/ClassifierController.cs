@@ -18,12 +18,28 @@ namespace AIFRAPI.Controllers
         public ClassifierController(ILogger<ClassifierController> logger, ITextCL textCL)
         {
             _textCL = textCL;
+            _logger = logger;
         }
 
-        [HttpGet(Name = "Get")]
-        public IActionResult Get(string text)
+        [HttpGet(Name = "GetPredict")]
+        public IActionResult GetPredict(string text)
         {
-            return Ok(_textCL.Predict(text));
+            string[] strs = text.Split(new[] { " json: " }, StringSplitOptions.None);
+            string command = strs[0];
+            string json = strs[1];
+
+            switch (command)
+            {
+                // predict json: Привет
+                case "predict":
+                    return Ok(_textCL.Predict(json));
+
+                // create json: {COC:10, Top_p:0.9, Max_n:4}
+                case "create":
+                    return Ok(_textCL.Create(json));
+            }
+
+            return Ok("Неизвестная команда");
         }
     }
 }

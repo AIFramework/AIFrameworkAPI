@@ -9,5 +9,6 @@ namespace MainLogic.ML.Models.Classifiers.Interfaces
     public interface ITextCL
     {
         string Predict(string text);
+        string Create(string json);
     }
 }

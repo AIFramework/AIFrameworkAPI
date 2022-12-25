@@ -5,7 +5,11 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainLogic", "MainLogic\MainLogic.csproj", "{C0E6D139-574F-432E-A3CE-F53C7A71FFA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIFRAPI", "AIFRAPI\AIFRAPI.csproj", "{5D591046-5EC7-4209-AE21-BC40845FC952}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIFRAPI", "AIFRAPI\AIFRAPI.csproj", "{5D591046-5EC7-4209-AE21-BC40845FC952}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AICrossPlatform", "C:\Users\smart digital\Documents\GitHub\AI C#\AIFrameworkOpen\src\AICrossPlatform\AICrossPlatform.csproj", "{405B72EC-3861-4068-A377-0160A97088C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AI.DataPrepaire", "C:\Users\smart digital\Documents\GitHub\AI C#\AIFrameworkOpen\src\AI.DataPrepaire\AI.DataPrepaire.csproj", "{009E9D74-075C-4E74-8807-B0BCDCA86475}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{5D591046-5EC7-4209-AE21-BC40845FC952}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D591046-5EC7-4209-AE21-BC40845FC952}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D591046-5EC7-4209-AE21-BC40845FC952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{405B72EC-3861-4068-A377-0160A97088C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{405B72EC-3861-4068-A377-0160A97088C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{405B72EC-3861-4068-A377-0160A97088C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{405B72EC-3861-4068-A377-0160A97088C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{009E9D74-075C-4E74-8807-B0BCDCA86475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009E9D74-075C-4E74-8807-B0BCDCA86475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009E9D74-075C-4E74-8807-B0BCDCA86475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009E9D74-075C-4E74-8807-B0BCDCA86475}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
