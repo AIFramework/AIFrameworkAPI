@@ -10,5 +10,7 @@ namespace MainLogic.ML.Models.Classifiers.Interfaces
     {
         string Predict(string text);
         string Create(string json);
+
+        string Status();
     }
 }

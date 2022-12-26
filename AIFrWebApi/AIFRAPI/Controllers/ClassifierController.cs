@@ -26,7 +26,7 @@ namespace AIFRAPI.Controllers
         {
             string[] strs = text.Split(new[] { " json: " }, StringSplitOptions.None);
             string command = strs[0];
-            string json = strs[1];
+            string json = strs.Length > 1? strs[1]:String.Empty;
 
             switch (command)
             {
@@ -37,6 +37,9 @@ namespace AIFRAPI.Controllers
                 // create json: {COC:10, Top_p:0.9, Max_n:4}
                 case "create":
                     return Ok(_textCL.Create(json));
+
+                case "status":
+                    return Ok(_textCL.Status());
             }
 
             return Ok("Неизвестная команда");

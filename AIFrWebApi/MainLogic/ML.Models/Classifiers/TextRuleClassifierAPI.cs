@@ -52,6 +52,22 @@ namespace MainLogic.ML.Models.Classifiers
                 return "Ошибка: "+e.Message;
             }
         }
+
+        /// <summary>
+        /// Статус классификатора
+        /// </summary>
+        /// <returns></returns>
+        public string Status() 
+        {
+            DataOfCreateTextRuleCl data = new DataOfCreateTextRuleCl()
+            {
+                COC = textRuleClassifier.classifier.NumCl,
+                Top_p = textRuleClassifier.classifier.States2Vector.TopP,
+                Max_n = textRuleClassifier.classifier.States2Vector.MaxNGramm
+            };
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(data);
+        }
     }
 
     public class DataOfCreateTextRuleCl 
