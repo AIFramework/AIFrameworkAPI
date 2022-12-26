@@ -24,12 +24,9 @@ app.MapControllers();
 
 app.Run();
 
-
-
-
 void ConfigureServices() 
 {
-    builder.Services.AddScoped<ITextCL, TextRuleClassifierAPI>();
+    builder.Services.AddSingleton<ITextCL, TextRuleClassifierAPI>();
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
