@@ -1,5 +1,7 @@
-﻿using AI.DataPrepaire.NLPUtils.TextClassification;
+﻿using AI.DataPrepaire.DataLoader.Formats;
+using AI.DataPrepaire.NLPUtils.TextClassification;
 using MainLogic.ML.Models.Classifiers.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,13 @@ namespace MainLogic.ML.Models.Classifiers
     [Serializable]
     public class TextRuleClassifierAPI : ITextCL
     {
-        TextRuleClassifier textRuleClassifier;
+        TextRuleClassifier textRuleClassifier = new TextRuleClassifier(1,0.9,1);
+        CSVSchem schem = new CSVSchem(); // Схема csv
+
+        /// <summary>
+        /// Число правил
+        /// </summary>
+        public int CountRules => textRuleClassifier.CountRules;
 
         /// <summary>
         /// Создать классификатор
@@ -26,10 +34,10 @@ namespace MainLogic.ML.Models.Classifiers
         public string Create(string data) 
         {
             DataOfCreateTextRuleCl dataOfCreateTextRuleCl = 
-                Newtonsoft.Json.JsonConvert.DeserializeObject<DataOfCreateTextRuleCl>(data)!;
+                 JsonConvert.DeserializeObject<DataOfCreateTextRuleCl>(data)!;
 
             textRuleClassifier = new TextRuleClassifier(
-                dataOfCreateTextRuleCl!.COC,
+                dataOfCreateTextRuleCl!.CountOfClasses,
                 dataOfCreateTextRuleCl.Top_p,
                 dataOfCreateTextRuleCl.Max_n);
 
@@ -61,19 +69,81 @@ namespace MainLogic.ML.Models.Classifiers
         {
             DataOfCreateTextRuleCl data = new DataOfCreateTextRuleCl()
             {
-                COC = textRuleClassifier.classifier.NumCl,
+                CountOfClasses = textRuleClassifier.classifier.NumCl,
                 Top_p = textRuleClassifier.classifier.States2Vector.TopP,
                 Max_n = textRuleClassifier.classifier.States2Vector.MaxNGramm
             };
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(data);
         }
+
+        /// <summary>
+        /// Обучение классификатора с помощью csv
+        /// </summary>
+        /// <param name="streamCSV"></param>
+        /// <returns></returns>
+        public string Train(Stream streamCSV)
+        {
+            using (StreamReader reader = new StreamReader(streamCSV)) 
+            {
+                var csv =  CSVLoader.Read(reader, schem.Separator);
+                var texts = csv[schem.DataColumn].ToType<string>();
+
+                var trg = csv[schem.ClassColumn].Data;
+                var trg_final = new int[trg.Count];
+
+                for (int i = 0; i < trg.Count; i++) 
+                    trg_final[i] = (int)trg[i] - 1;
+
+                textRuleClassifier.Train(texts.ToArray(), trg_final);
+
+
+                var true_cl = 0.0;
+
+                for (int i = 0; i < trg_final.Length; i++)
+                    if (trg_final[i] == textRuleClassifier.Predict(texts[i]))
+                        true_cl++;
+
+                return $"Точность: {Math.Round(true_cl / trg_final.Length * 100, 1)}";
+            }
+        }
+
+        /// <summary>
+        /// Получить схему csv
+        /// </summary>
+        /// <returns></returns>
+        public string GetCSVSchem()
+        {
+            return JsonConvert.SerializeObject(schem);
+        }
+
+        /// <summary>
+        /// Установить схему csv
+        /// </summary>
+        /// <returns></returns>
+        public string SetCSVSchem(string json)
+        {
+            schem = JsonConvert.DeserializeObject<CSVSchem>(json)!;
+            return "Схема установлена";
+        }
     }
 
     public class DataOfCreateTextRuleCl 
     {
-        public int COC { get; set; }
+        public int CountOfClasses { get; set; }
         public double Top_p { get; set; }
         public int Max_n { get; set; }
+    }
+
+    /// <summary>
+    /// Схема csv
+    /// </summary>
+    public class CSVSchem 
+    {
+        public string Separator { get; set; } = ",";
+
+        public string DataColumn { get; set; } = "A";
+
+        public string ClassColumn { get; set; } = "Class";
     }
 }
